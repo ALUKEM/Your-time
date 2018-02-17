@@ -208,7 +208,7 @@
 						
 					<td>
 					<p>
-						"Time management is hard. There are so many things to do, and it may be overwhelming to think about the huge stack of work waiting for you. So hard to choose when to do what! So easy to procrastinate! But with an organized schedue, time management is made simple and easy, and this website does it all for you."
+						"Time management is hard. There are so many things to do, and it may be overwhelming to think about the huge stack of work waiting for you. So hard to choose when to do what! So easy to procrastinate! But with an organized schedule, time management is made simple, and this website does it all for you."
 					</p>
 					</td>
 				</tr>
