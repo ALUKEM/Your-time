@@ -51,5 +51,11 @@ session_start()
 			<h3>Already have an account? <a href='login.php'>Log in!</a></h3>";
 		}
 		?>
+		
+		<p>
+			
+Welcome to <b>Your Time™<\b>! <b> Your Time™ <\b> is a website created by the Purple Toasters. It generates a custom schedule based on the tasks you need to accomplish during the day. Simply make an account, a task with a base time allotment, and let the website make you a schedule. This schedule is updated based on user data, such as how long it takes you to complete a task, so if you usually need more time for that math homework, it takes that into account and allots you more time for it in your schedule. Just give us your time, and we will manage it for you.
+
+		<\p>
 	</body>
 </html>
