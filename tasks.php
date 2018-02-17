@@ -11,8 +11,9 @@ session_start()
 	<body>
 		<?php
 		$noTasks = 'no';
+		$tasknamesli = array();
 		$VAR1 = FALSE;
-		require('fpdf.php');
+		//require('fpdf.php');
 		if (key_exists('err', $_SESSION)) {
 			if ($_SESSION['err']) {
 				$_SESSION['errors'] = array();
@@ -25,6 +26,66 @@ session_start()
 			
 		}
 		
+		function donothing() {
+				;
+		}
+		
+		function killtask($taskname) {
+			$servername = "localhost";
+			$username = "root";
+			$password = "";
+			$dbname = "tasks";
+			$user = $_SESSION["user"];
+			
+			$conn = mysqli_connect($servername, $username, $password, $dbname);
+			
+			if (!$conn) {
+				die("Connection failed: " . mysqli_connect_error());
+			}
+			
+			$tablename = "tasks" . $user;$tablename = "tasks" . $user;
+			$sql = "DELETE FROM tasks.$tablename WHERE taskname = '$taskname';";
+			$result = mysqli_query($conn, $sql);
+
+			mysqli_close($conn);
+		}
+		
+		function checktask($taskname) {
+			global $tasknamesli;
+			$inside = false;
+			$servername = "localhost";
+			$username = "root";
+			$password = "";
+			$dbname = "tasks";
+			$user = $_SESSION["user"];
+
+			$conn = mysqli_connect($servername, $username, $password, $dbname);
+			
+			if (!$conn) {
+				die("Connection failed ". mysqli_connect_error());
+			}
+			
+			$tablename = "tasks" . $user;
+			
+			$sql = "SELECT taskname FROM tasks.$tablename;";
+			
+			$result = mysqli_query($conn, $sql);
+			while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+				array_push($tasknamesli, $row['taskname']);
+			}
+			
+			foreach($tasknamesli as $x) {
+				if ($x === $taskname) {
+					$inside = true;
+				}
+			}
+			
+			return $inside;
+			
+			mysqli_close($conn);
+	
+		}
+	
 		function edit_task($taskname, $taskdesc, $duedate, $taskid) {
 			$servername = "localhost";
 			$username = "root";
@@ -212,14 +273,21 @@ session_start()
 				create_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"]);
 				checkTasks($_SESSION['user']);
 				$_SESSION['err'] = TRUE;
+				$_SESSION["editing"] = "no";
+				
 			}
 			if ($_SESSION['editing'] == 'yes') {
-				echo "YOU MADE IT";
 				edit_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"],$_POST["idnum"]);
 				checkTasks($_SESSION['user']);
+				$_SESSION["editing"] = "no";
 			}
 			if ($_SESSION['editing'] == 'delete') {
-				
+				$_SESSION["editing"] = "no";
+				if (checktask($_POST['deltaskname'])) {
+					killtask($_POST['deltaskname']);
+				} else {
+					array_push($_SESSION["errors"], "Task does not exist");
+				}	
 			}
 		}
 		if ($VAR1) {
@@ -283,13 +351,13 @@ session_start()
 					</div>
 					<div class="modal-body">
 						<form target="_self" method="POST">
-							<?php
-							$_SESSION["editing"] = "no";
-							?>
 							<h4> Task Name: (max: 50 chars) </h4><input id="taskcreation" type="text" name="tskname"><br>
 							<h4> Task Description: (max: 300 chars) </h4><input id="taskcreation" type="text" name="tskdesc"><br>
 							<h4>Date: </h4><input id="taskcreation" type="date" name="duedate"><br>
 							<input id="taskcreation1" type="submit" value="Create Task">
+							<?php
+							$_SESSION["editing"] = "no";
+							?>
 						</form>
 					</div>
 				</div>
@@ -328,6 +396,8 @@ session_start()
 		<form action="edittask.php" id="taskOptions">
 			<input type="submit" value="Edit Tasks" />
 		</form>
-		<button style='margin-right: 10px; margin-top: 5px; font-size: 18pt;' >Delete Tasks</button>
+		<form action="deletetask.php" id = "delTask">
+			<input type = "submit" value = "Delete task">
+		</form>
 	</body>
 </html>

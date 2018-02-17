@@ -6,12 +6,11 @@
 	</head>
 	<body>
 	<a name="top"></a>
-		<?php 
+	<?php 
 		$errors = array("All fields are required.","Passwords do not match.","Error with creating account. Most likely, an account with that user name already exists.","Password requirements not fulfilled.");
 		$alert = FALSE;
 		$ErrMsg = array();
 		$VAR = 0;
-		$VAR1 = 0;
 		$VAR2 = 0;
 		function test_input($data) {
 		  $data = trim($data);
@@ -20,13 +19,14 @@
 		  return $data;
 		}
 		function create_table($user) {
-			global $VAR, $VAR2;
+			global $VAR;
 			$servername = "localhost";
 			$username = "root";
 			$password = "";
 			$dbname = "accounts";
 			//Create connection_aborted
 			$conn = mysqli_connect($servername, $username, $password, $dbname);
+
 			//Check connection_aborted
 			if (!$conn) {
 				die("Connection failed: " . mysqli_connect_error());
@@ -36,23 +36,14 @@
 			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			name NVARCHAR(200) NOT NULL,
 			pswd NVARCHAR(200) NOT NULL,
-			email NVARCHAR(100),
-			last_login datetime
+			email NVARCHAR(100)
 			)";
-			
-			/*$userr = $user + "data"
-			
-			$sql1 = "CREATE TABLE $userr (
-			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			taskname NVCHAR(200) NOT NULL,
-			tasktime INT NOT NULL
-			)";
-			*/
-			if (mysqli_query($conn, $sql) === TRUE /*and mysqli_query($conn, $sql1) === TRUE) */) {
-				$VAR2 = TRUE;
+			if (mysqli_query($conn, $sql) === TRUE) {
+				echo "Account Created! <br>";
 			} else {
 				$VAR = 1;
 			}
+
 			mysqli_close($conn);
 		}
 		function create_account($user, $userpassword, $email) {
@@ -64,19 +55,22 @@
 			$hashedpswd = hash('sha512', $userpassword);
 			//Create connection_aborted
 			$conn = mysqli_connect($servername, $username, $password, $dbname);
+
 			//Check connection_aborted
 			if (!$conn) {
 				die("Connection failed: " . mysqli_connect_error());
 			}
+
 			$sql = "INSERT INTO $user SET
 			name = '$hasheduser', 
 			pswd = '$hashedpswd',
 			email = '$email';";
+
 			$conn->query($sql);
 			mysqli_close($conn);
 		}
 		function validate_inputs($user, $userpassword, $ruserpassword, $email) {
-			global $errors, $VAR1;
+			global $errors;
 			global $ErrMsg;
 			global $alert;
 			global $VAR;
@@ -86,11 +80,11 @@
 			$password = "";
 			$dbname = "accounts";
 			$user = test_input($user);
-			$userpassword = test_input($userpassword);
 			$hasheduser = hash('ripemd160', $user);
 			//$errTable = 'no';
 			//Create connection_aborted
 			$conn = mysqli_connect($servername, $username, $password, $dbname);
+
 			//Check connection_aborted
 			if (!$conn) {
 				die("Connection failed: " . mysqli_connect_error());
@@ -109,24 +103,14 @@
 				$alert = True;
 				array_push($ErrMsg, $errors[3]);
 			}
-			if ($user == "" or $username == "" or $userpassword == "" or $ruserpassword == "" or $email == "") {
+			if ($user == "" or $username == "" or $userpassword == "" or $ruserpassword == "") {
 				$alert = True;
 				array_push($ErrMsg, $errors[0]);
-			}
-			if (strlen($email) > 2) {
-				if (strpos($email, '@', 1) === FALSE) {
-					$alert = True;
-					array_push($ErrMsg, 'Invalid email');
-				} else {
-					if (strpos($email, '.',strpos($email, '@', 1)) === FALSE) {
-						$alert = True;
-						array_push($ErrMsg, 'Invalid email');
-					}
-				}
 			}
 			if (!$alert) {
 				create_table($user);
 				if ($VAR == 0) {
+					create_account($user, $userpassword, $email);
 					shell_exec("python sendemail.py $email");
 				} else {
 					$alert = True;
@@ -134,7 +118,11 @@
 				}
 			}
 			if ($alert == TRUE) {
-				$VAR1 = 1;
+				echo "<script type='text/javascript'>alert('One or more fields are invalid.');</script>";
+				/*echo "<div id = error>Errors: <br></div>";
+				for ($x = 0; $x <= count($ErrMsg)-1; $x++) {
+					echo "<div id = error>- $ErrMsg[$x] <br></div>";
+				}*/
 				//if ($errTable == 'yes') {
 				//	$conn->query('DROP TABLE $user');
 				//}
