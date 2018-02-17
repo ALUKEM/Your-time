@@ -16,7 +16,13 @@ session_start()
 			}
 			if ($_SESSION['redirect']) {
 				$_SESSION['redirect'] = FALSE;
+				$_SESSION['err'] = TRUE;
 				header('Location: tasks.php');
+			}
+			if ($_SESSION['loggedin'] === 'logged out') {
+				session_unset();
+				session_destroy();
+				echo "<script type='text/javascript'>alert('Successfully logged out!');</script>";
 			}
 		}
 		?>
@@ -30,15 +36,16 @@ session_start()
 				echo "<a href='logout.php'>Log Out</a>";
 				}
 			} else {
-				echo "<a href='create_account2.php'>Create Account</a>";
+				echo "<a href='create_account.php'>Create Account</a>";
 			}
 			?>
 		</div>
 		<h1>It's time. </h1>
-		<h2><a href="create_account2.php">Join us</a> and start taking back <strong>your</strong> time.</h2>
+		
 		<?php
 		if (!array_key_exists('user', $_SESSION)) {
-			echo "<h3>Already have an account? <a href='login.php'>Log in!</a></h3>";
+			echo "<h2><a href='create_account.php'>Join us</a> and start taking back <strong>your</strong> time.</h2>
+			<h3>Already have an account? <a href='login.php'>Log in!</a></h3>";
 		}
 		?>
 	</body>

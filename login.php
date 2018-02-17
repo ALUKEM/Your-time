@@ -11,6 +11,7 @@ session_start()
 	<body>
 		<?php
 		$loggedin = $wow = "";
+		$_SESSION['errors'] = array();
 		$errList = array();
 		function test_input($data) {
 		  $data = trim($data);
@@ -65,6 +66,9 @@ session_start()
 				if ($passwordFound === $hashedpswd) {
 					$loggedin = 'yes';
 					$_SESSION['loggedin'] = TRUE;
+					$time = date('Y-m-d H:i:s');
+					$sql = "INSERT INTO accounts.$user SET
+					last_login = $time;";
 				} else {
 					array_push($errList, 'Incorrect user name or password');
 				}
@@ -90,7 +94,7 @@ session_start()
 				echo "<a href='logout.php'>Log Out</a>";
 				}
 			} else {
-				echo "<a href='create_account2.php'>Create Account</a>";
+				echo "<a href='create_account.php'>Create Account</a>";
 			}
 			?>
 		</div>
@@ -110,8 +114,8 @@ session_start()
 		}
 		?>
 		<form target="_self" method="POST">
-			Username: <input type="text" name="usr"><br>
-			Password: <input type="password" name="pass"><br>
+			<h5>Username: </h5><input type="text" name="usr"><br>
+			<h5>Password: </h5><input type="password" name="pass"><br>
 			<input type="submit" value="Log in">
 		</form>
 	</body>
