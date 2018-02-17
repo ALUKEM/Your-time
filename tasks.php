@@ -12,15 +12,12 @@ session_start()
 		<?php
 		$noTasks = 'no';
 		$VAR1 = FALSE;
-		if ($_SESSION['errShown']) {
-			unset($_SESSION['crtTaskErr']);
-			$_SESSION['crtTaskErr'] = array();
+		if ($_SESSION['redirect']) {
+			$_SESSION['errors'] = array();
 		}
-		$errors = $_SESSION['crtTaskErr'];
 		$desclist = $namelist = $datelist = array();
 		$number = array();
 		function create_task($taskname, $taskdesc, $duedate) {
-			global $errors;
 			$servername = "localhost";
 			$username = "root";
 			$password = "";
@@ -39,7 +36,7 @@ session_start()
 			if ($result === TRUE) {
 				$sql = "SELECT * FROM tasks.$tablename WHERE taskname='$taskname';";
 				if (mysqli_query($conn, $sql) === TRUE) {
-					array_push($errors, 'Task with that name already exists.');
+					array_push($_SESSION['errors'], 'Task with that name already exists.');
 				}
 			} else {
 				$sql = "CREATE TABLE $tablename (  
@@ -55,18 +52,18 @@ session_start()
 				$result = mysqli_query($conn, $sql);
 				while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 					if ($row['taskname'] == $taskname) {
-						array_push($errors, 'A task with that name already exists');
+						array_push($_SESSION['errors'], 'A task with that name already exists');
 					}
 				}
 				if (strlen(ltrim(rtrim($taskname))) == 0) {
-					array_push($errors, 'Task names are required');
+					array_push($_SESSION['errors'], 'Task names are required');
 				}
 				$actualdate = date_format(date_create_from_format('Y-m-d', $duedate), 'F j, Y');
 				if ($duedate == ' ' or $actualdate == FALSE) {
-					array_push($errors, 'Due Dates are required');
+					array_push($_SESSION['errors'], 'Due Dates are required');
 				}
 				
-				if (count($errors) == 0) {
+				if (count($_SESSION['errors']) == 0) {
 					$sql = "INSERT INTO $tablename SET
 					taskname = '$taskname',
 					taskdesc = '$taskdesc',
@@ -76,7 +73,6 @@ session_start()
 					$_SESSION['errShown'] = FALSE;
 				}
 			}
-			$_SESSION['crtTaskErr'] = $errors;
 			mysqli_close($conn);
 		}
 		function test_input($data) {
@@ -121,7 +117,7 @@ session_start()
 			}
 		}
 		function checkTasks($user) {
-			global $noTasks, $errors;
+			global $noTasks;
 			$servername = "localhost";
 			$username = "root";
 			$password = "";
@@ -171,7 +167,7 @@ session_start()
 		</div>
 		<?php
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			create_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"]);
+			create_task($_SESSION["tskname"], $_SESSION["tskdesc"], $_SESSION["duedate"]);
 			checkTasks($_SESSION['user']);
 			header("Location: tasks.php");
 		}
@@ -182,7 +178,8 @@ session_start()
 			if ($noTasks == 'yes') {
 				echo "<h1><strong>You have no tasks. Create one now!</strong></h1>";
 			} else {
-				if (!empty($errors) and !$_SESSION['errShown']) {
+				$errors = $_SESSION['errors'];
+				if (!empty($errors)) {
 					echo "<h2 id='error'><strong>Errors:</strong></h2>";
 					for($x = 0; $x <= count($errors)-1; $x++) {
 						echo "<h2 id='error'><strong>- $errors[$x]<br></strong></h2>";
