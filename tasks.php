@@ -12,6 +12,7 @@ session_start()
 		<?php
 		$noTasks = 'no';
 		$VAR1 = FALSE;
+		require('fpdf.php');
 		if (key_exists('err', $_SESSION)) {
 			if ($_SESSION['err']) {
 				$_SESSION['errors'] = array();
@@ -20,6 +21,35 @@ session_start()
 		}
 		$desclist = $namelist = $datelist = array();
 		$number = array();
+		function create_pdf() {
+			
+		}
+		
+		function edit_task($taskname, $taskdesc, $duedate, $taskid) {
+			$servername = "localhost";
+			$username = "root";
+			$password = "";
+			$dbname = "tasks";
+			$user = $_SESSION['user'];
+			//Create connection_aborted
+			$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+			//Check connection_aborted
+			if (!$conn) {
+				die("Connection failed: " . mysqli_connect_error());
+			}
+			$tablename = 'tasks' . $user;
+			$sql = "SELECT taskname FROM tasks.$tablename WHERE taskname='$taskid';";
+			$result = mysqli_query($conn, $sql);
+			if ($result === FALSE) {
+				array_push($_SESSION['errors'], 'Task does not exist');
+			} else {
+				$sql = "DELETE FROM tasks.$tablename WHERE taskname='$taskid';";
+				$result = mysqli_query($conn, $sql);
+				create_task($taskname, $taskdesc, $duedate);
+			}
+		}
+		
 		function create_task($taskname, $taskdesc, $duedate) {
 			$servername = "localhost";
 			$username = "root";
@@ -172,15 +202,25 @@ session_start()
 				echo "<a href='logout.php'>Log Out</a>";
 				}
 			} else {
-				echo "<a href='create_account2.php'>Create Account</a>";
+				echo "<a href='create_account.php'>Create Account</a>";
 			}
 			?>
 		</div>
 		<?php
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			create_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"]);
-			checkTasks($_SESSION['user']);
-			$_SESSION['err'] = TRUE;
+			if ($_SESSION['editing'] == 'no') { 
+				create_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"]);
+				checkTasks($_SESSION['user']);
+				$_SESSION['err'] = TRUE;
+			}
+			if ($_SESSION['editing'] == 'yes') {
+				echo "YOU MADE IT";
+				edit_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"],$_POST["idnum"]);
+				checkTasks($_SESSION['user']);
+			}
+			if ($_SESSION['editing'] == 'delete') {
+				
+			}
 		}
 		if ($VAR1) {
 			echo "<h3>You need to <a href='create_account.php'>create an account</a> first!</h3>";
@@ -203,7 +243,6 @@ session_start()
 							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Task Name</th>
 							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Task Description</th>
 							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Due By</th>
-							<th colspan="3" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Options<th>
 						</tr>';
 				showTasks($_SESSION['user']);
 				for ($x = 0; $x <= count($namelist) - 1; $x++) {
@@ -225,9 +264,6 @@ session_start()
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px;'>$name</th>
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px; overflow: hidden; width: 18%;'>$desc</th>
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px;'>$date</th>
-								<th> <button style='margin-right: 10px; margin-top: 5px; font-size: 18pt;' id='edit'>More Info</button> <th>
-								<th> <button style='margin-right: 10px; margin-top: 5px; font-size: 18pt;' id='edit'>Edit</button> <th>
-								<th> <button style='margin-right: 10px; margin-top: 5px; font-size: 18pt;' id='del'>Delete</button> <th>
 								
 							</tr>";
 				}
@@ -236,7 +272,7 @@ session_start()
 			echo '<!-- Trigger/Open The Modal -->
 			<button style="margin-left: 20px; margin-top: 5px;" id="myBtn">Create Task</button>
 
-			<!-- The Modal -->
+			<!-- Create Task Modal -->
 			<div id="myModal" class="modal">
 
 				<!-- Modal content -->
@@ -247,6 +283,9 @@ session_start()
 					</div>
 					<div class="modal-body">
 						<form target="_self" method="POST">
+							<?php
+							$_SESSION["editing"] = "no";
+							?>
 							<h4> Task Name: (max: 50 chars) </h4><input id="taskcreation" type="text" name="tskname"><br>
 							<h4> Task Description: (max: 300 chars) </h4><input id="taskcreation" type="text" name="tskdesc"><br>
 							<h4>Date: </h4><input id="taskcreation" type="date" name="duedate"><br>
@@ -284,5 +323,11 @@ session_start()
 			</div>';
 		}
 		?>
+		<h2>Options:</h2>
+		<button style='margin-right: 10px; margin-top: 5px; font-size: 18pt;' >More Info</button>
+		<form action="edittask.php" id="taskOptions">
+			<input type="submit" value="Edit Tasks" />
+		</form>
+		<button style='margin-right: 10px; margin-top: 5px; font-size: 18pt;' >Delete Tasks</button>
 	</body>
 </html>

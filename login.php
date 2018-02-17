@@ -13,6 +13,7 @@ session_start()
 		$loggedin = $wow = "";
 		$_SESSION['errors'] = array();
 		$errList = array();
+		$_SESSION['editing'] = 'no';
 		function test_input($data) {
 		  $data = trim($data);
 		  $data = stripslashes($data);
