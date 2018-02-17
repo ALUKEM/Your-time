@@ -2,6 +2,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css.css">
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,100' rel='stylesheet' type='text/css'>
 		<title>Home | Your Time</title>
 	</head>
 	<body>
@@ -134,23 +135,24 @@
 			validate_inputs($_POST["usr"], $_POST["pass"], $_POST["rpass"], $_POST["email"]);
 		}
 		?>
-		
-		<div class = "header">
-			<div class="topnav">
-				<a href="home.php#home">Home</a>
-				<a href="home.php#about">About</a>
-				<a href="tasks.php">My Tasks</a>
-				<a class="active" href="#CreateAccount">Create Account</a>
+		<a href="home.php">
+			<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
+		</a>
+		<div class="topnav">
+			<a href="home.php#home">Home</a>
+			<a href="home.php#about">About</a>
+			<a href="tasks.php">My Tasks</a>
+			<a class="active" href="#CreateAccount">Create Account</a>
+		</div>
+		<div class = header>
+			<div id = section1>
+				<br>
+				<div class = idk>
+				Can't manage your time? Let us help.
 			</div>
-		</div>
-		<div id = "section1">
-		<br><br><br><br><br><br><br><br>
-		<div id = "idk">
-			Can't manage your time? Let us help.
-		</div>
-		<br><br><br><br>
-		
-		<table border = 0px width = 100%>
+			<br><br>
+			
+			<table border = 0px, width = 100%;>
 			<tr>
 				<td width = 58% align = "right">
 					<div id = "frontpage"><img src="frontpage.png" style="width:550px;height:500px;"></div>
@@ -226,7 +228,7 @@
 			<table border = 0px width = 100%>
 				<tr>
 					<td width = 33% align = "right">
-						<div id = "ending">Take back <i>Your</i> time:</div> 
+						<div id = "ending">Take back <b>your</b> time:</div> 
 					</td>
 					
 					<td>

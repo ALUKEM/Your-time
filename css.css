@@ -3,9 +3,20 @@
 	padding: 0;
 }
 
+html, body {
+	max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
-  font-family: Verdana;
-  background-color: black;
+	font-family: 'Roboto';
+	background-color: black;
+	color: white;
+	margin: 10px;
+}
+
+.logo{
+    float:left;
 }
 
 a:link {
@@ -24,7 +35,15 @@ h1 {
 	margin-top: 10px;
 }
 
+h5 {
+	color: #0099ff;
+	font-size: 17pt;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
 h3 {
+	font-size: 17pt;
 	margin-left: 10px;
 	margin-top: 10px;
 }
@@ -35,139 +54,136 @@ h2 {
 }
 
 p {
-  font-size: 20pt;
-  padding: 1px;
-  margin: 1px;
+	font-size: 20pt;
+	padding: 1px;
+	margin: 2px;
 }
 
 #form1 {
-  font-family: Verdana;
-  font-size: 15pt;
-  color: #0099ff
-}
-
-#form2 {
-  display: none;
-  font-family: Verdana;
-  font-size: 15pt;
-  color: #0099ff
+	font-family: 'Roboto';
+	font-size: 15pt;
+	color: #0099ff
 }
 
 #frontpage {
-  margin-right: 50px;
+	margin-right: 50px;
 }
 
 #section1 {
-  background-color: black;
-  height: 900px;
+	background-color: black;
+	height: 900px
 }
 
 #section2 {
-  margin-top: 80px;
-  background-color: lightgray;
-  font-family: Verdana;
+	margin-top: 80px;
+	background-color: lightgray;
+	font-family: 'Roboto';
 }
 
 #end {
-  background-color: black;
+	background-color: black;
 }
 
 #intro {
-  font-size: 40pt;
+	font-size: 40pt;
 }
 
-#quote {
-  font-family: Serif;
-  color: gray;
-  font-size: 30pt;
-}
 
 #ending {
-  color: white;
-  font-size: 30pt;
+	color: white;
+	font-size: 30pt;
 }
 
-#error {
-  color: red;
-}
 
-#idk {
-  font-size: 50pt;
-  color: #0099ff;
-}
 
 button {
-  background-color: #00ccff;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 130px;
-  transition: background .5s;
-  font-size: 20pt;  
-  font-family: cursive;
+	background-color: #00ccff;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 130px;
+	transition: background .5s;
+	font-size: 20pt;  
+	font-family: cursive;
 }
+
 
 .header {
-  height:100px;
-  background:black;
-  border-bottom:3px solid white;
-  width:100%;
-  margin:0px auto;
-  position: absolute;
-  font-size: 20pt;
-  text-align: left;
+	height:100px;
+	background:black;
+	border-bottom:3px solid white;
+	width:100%;
+	margin:0px;
+	position: absolute;
+	font-size: 20pt;
+	text-align: left;
 }
 
-.sameline {
-  display: inline-block;
-}
-
-input[type="submit"]:hover {
-  background-color: #99ddff;
-  transition: background .5s; 
+.idk {
+	font-size: 50pt;
+	color: #0099ff;
 }
 
 button:hover {
-  background-color: #99ddff;
-  transition: background .5s;
+	background-color: #99ddff;
+	transition: background .5s;
 }
 
 input[type="submit"] {
-  background-color: #00ccff;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 130px;
-  transition: background .5s; 
+	font-family: 'Roboto';
+	background-color: #00ccff;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 10;
+	border: none;
+	cursor: pointer;
+	width: auto;
+	height: 65px;
+	font-size: 20px;
+	transition: background .5s; 
 }
+
 
 input[type="button"] {
-  background-color: #00ccff;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 130px;
-  transition: background .5s; 
+	font-family: 'Roboto';
+	background-color: #00ccff;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 10;
+	border: none;
+	cursor: pointer;
+	width: 130px;
+	height: 65px;
+	font-size: 20px;
+	transition: background .5s; 
 }
 
-input[type="text"] {
-  width: 315px;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
+input[type=text] {
+	width: 315px;
+	padding: 12px 20px;
+	margin: 8px 10px;
+	box-sizing: border-box;
 }
 
-input[type="password"] {
-    width: 315px;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
+#taskcreation {
+	border: hidden;
+	color: white;
+	background-color: black;
+	text-align: left;
+	font-size: 15pt;
+	height: 40px;
+	width: 60%;
+	padding: 12px 20px;
+	margin: 3px 0px;
+}
+
+input[type=password] {
+	width: 315px;
+	padding: 12px 20px;
+	margin: 8px 10;
+	box-sizing: border-box;
 }
 
 /* Add a black background color to the top navigation */
@@ -183,7 +199,7 @@ input[type="password"] {
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
-	font-size: 17px;
+	font-size: 25px;
 }
 
 /* Change the color of links on hover */
@@ -196,4 +212,128 @@ input[type="password"] {
 .topnav a.active {
 	background-color: #369DFB;
 	color: white;
+}
+
+.modal {
+	color: #369DFB;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #323232; /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* The Close Button */
+.close {
+    margin-top: 16px;
+	margin-right: 18px;
+	color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+	padding: 2px;
+	font-size: 24pt;
+    background-color: #6A6A6A;
+    color: #369DFB;
+	margin-bottom: 2px;
+}
+
+/* Modal Body */
+.modal-body {
+	font-size: 14pt;
+	padding: 2px 12px;
+	margin-top: 6px;
+	margin-left: -4px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    background-color: #323232;
+    color: #369DFB;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #323232;
+    margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+    padding: 15px;
+    width: 40%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+#form2 {
+  display: none;
+  font-family: Verdana;
+  font-size: 15pt;
+  color: #0099ff
+}
+
+
+#intro {
+  font-size: 40pt;
+}
+
+#quote {
+  font-family: 'Roboto';
+  color: gray;
+  font-size: 30pt;
+}
+
+
+#error {
+  color: red;
+}
+
+button {
+	font-family: 'Roboto';
+	background-color: #00ccff;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 10;
+	border: none;
+	cursor: pointer;
+	width: 130px;
+	height: auto;
+	transition: background .5s; 
+}
+
+.sameline {
+  display: inline-block;
+}
+
+input[type="submit"]:hover {
+  background-color: #99ddff;
+  transition: background .5s; 
+}
+
+button:hover {
+  background-color: #99ddff;
+  transition: background .5s;
 }

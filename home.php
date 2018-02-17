@@ -6,7 +6,7 @@ session_start()
 		<meta charset="utf-8">
 		<title>Home | Your Time</title>
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,100' rel='stylesheet' type='text/css'>
-		<link href="home_style.css" type="text/css" rel="stylesheet">
+		<link href="css.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
 		<?php
@@ -26,9 +26,12 @@ session_start()
 			}
 		}
 		?>
+		<a href="home.php">
+			<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
+		</a>
 		<div class="topnav">
-			<a class="active" href="#home">Home</a>
-			<a href="#about">About</a>
+			<a href="home.php#home">Home</a>
+			<a href="home.php#about">About</a>
 			<a href="tasks.php">My Tasks</a>
 			<?php
 			if (array_key_exists('user', $_SESSION)) {
@@ -36,7 +39,7 @@ session_start()
 				echo "<a href='logout.php'>Log Out</a>";
 				}
 			} else {
-				echo "<a href='create_account.php'>Create Account</a>";
+				echo "<a href='create_account2.php'>Create Account</a>";
 			}
 			?>
 		</div>
