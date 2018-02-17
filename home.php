@@ -10,16 +10,7 @@ session_start()
 	</head>
 	<body>
 		<?php
-		if (array_key_exists('loggedin', $_SESSION)) {	
-			$_SESSION['crtTaskErr'] = array();
-			$_SESSION['errShown'] = FALSE;
-			/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				$_SESSION['crtTaskErr'] = array();
-				$_SESSION['tskname'] = $_POST['tskname'];
-				$_SESSION['tskdesc'] = $_POST['tskdesc'];
-				$_SESSION['duedate'] = $_POST['duedate']; 
-				header('Location: tasks.php');  
-			}*/
+		if (array_key_exists('loggedin', $_SESSION)) {
 			if ($_SESSION['loggedin'] and $_SESSION['redirect']) {
 				echo "<script type='text/javascript'>alert('Successfully logged in!');</script>";
 			}
