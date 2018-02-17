@@ -172,7 +172,7 @@ session_start()
 				echo "<a href='logout.php'>Log Out</a>";
 				}
 			} else {
-				echo "<a href='create_account.php'>Create Account</a>";
+				echo "<a href='create_account2.php'>Create Account</a>";
 			}
 			?>
 		</div>
