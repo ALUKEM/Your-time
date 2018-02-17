@@ -45,8 +45,8 @@
 			
 			$sql1 = "CREATE TABLE $userr (
 			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			taskname NVCHAR(200) NOT NULL,
-			tasktime INT NOT NULL
+			question NVCHAR(200) NOT NULL,
+			questiontime INT NOT NULL
 			)";
 			*/
 			if (mysqli_query($conn, $sql) === TRUE /*and mysqli_query($conn, $sql1) === TRUE) */) {
@@ -147,10 +147,10 @@
 					</div>
 					</body>
 					</html>';*/
-					$confirmemail = mail($email, "$user, thank you for registering with Your Time", $text, "Content-Type: text/html; charset=ISO-8859-1\r\n");
+					/*$confirmemail = mail($email, "$user, thank you for registering with Your Time", $text, "Content-Type: text/html; charset=ISO-8859-1\r\n");
 					if ($confirmemail) {
 						create_account($user, $userpassword, $email);
-					} else {
+					*/} else {
 						echo "error";
 					}
 				} else {
@@ -174,14 +174,14 @@
 		<div class="topnav">
 			<a href="home.php#home">Home</a>
 			<a href="home.php#about">About</a>
-			<a href="tasks.php">My Tasks</a>
+			<a href="questions.php">Questions</a>
 			<a class="active" href="#CreateAccount">Create Account</a>
 		</div>
 		<div class = header>
 			<div id = section1>
 				<br>
 				<div class = idk>
-				Can't manage your time? Let us help.
+				Need a medical question answered? Ask away.
 			</div>
 			<br><br>
 			
