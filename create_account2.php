@@ -203,20 +203,19 @@
 			<table border = 0px width = 100%>
 				<tr>
 					<td width = 50%;>
-						<center><div id = "quote">“Machine learning will increase productivity <br>throughout the supply chain.” ~Dave Waters</div></center>
+						<center><div id = "quote">“The key is not to prioritize what's on your schedule, <br> but to schedule your priorities.” ~Steven Covey</div></center>
 					</td>
 						
 					<td>
 					<p>
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+						"Time management is hard. There are so many things to do, and it may be overwhelming to think about the huge stack of work waiting for you. So hard to choose when to do what! So easy to procrastinate! But with an organized schedue, time management is made simple and easy, and this website does it all for you."
 					</p>
 					</td>
 				</tr>
 				<tr>
 					<td colspan = 2>
 					<p>
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim"
+						"\" In ovation that Xsites.\" - Kneesahn"
 					</p>
 					</td>
 				</tr>
