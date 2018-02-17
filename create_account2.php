@@ -5,6 +5,7 @@
 		<title>Home | Your Time</title>
 	</head>
 	<body>
+	<a name="top"></a>
 		<?php 
 		$errors = array("All fields are required.","Passwords do not match.","Error with creating account. Most likely, an account with that user name already exists.","Password requirements not fulfilled.");
 		$alert = FALSE;
@@ -239,8 +240,9 @@
 					<td width = 33% align = "right">
 						<div id = "ending">Take back <i>Your</i> time:</div> 
 					</td>
+					
 					<td>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button>Join us</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button><a href="#top"> Join us</a></button>
 					</td>
 					<td align = "right">
 						<img src = "foot2.png" style = "width: 500px; height: 220px;" align = "right">
