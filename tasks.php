@@ -335,21 +335,25 @@ session_start()
 			$VAR1 = TRUE;
 		}
 		?>
-		<a href="home.php">
-			<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
-		</a>
+		<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
 		<div class="topnav">
-			<a href="home.php#home">Home</a>
-			<a href="home.php#about">About</a>
-			<a class="active" href="tasks.php">My Tasks</a>
 			<?php
-			if (array_key_exists('user', $_SESSION)) {
-				if ($_SESSION['loggedin']) {
-				echo "<a href='logout.php'>Log Out</a>";
+				if (array_key_exists('user', $_SESSION)) {
+					if ($_SESSION['loggedin']) {
+						echo "<a href='home2.php'>Home</a>";
+					}
+				} else {
+					echo "<a href='index.php'>Home</a>";
 				}
-			} else {
-				echo "<a href='create_account2.php'>Create Account</a>";
-			}
+			?>
+			<a class="active" href="tasks.php">My Tasks</a>
+			<a href="about.php#about">About</a>
+			<?php
+				if (array_key_exists('user', $_SESSION)) {
+					if ($_SESSION['loggedin']) {
+					echo "<a href='logout.php'>Log Out</a>";
+					}
+				}
 			?>
 		</div>
 		<?php
@@ -386,7 +390,7 @@ session_start()
 			}
 		}
 		if ($VAR1) {
-			echo "<h3>You need to <a href='create_account2.php'>create an account</a> first!</h3>";
+			echo "<h3>You need to <a href='create_account.php'>create an account</a> first!</h3>";
 			echo "<h3>Already have an account? <a href='login.php'>Log in!</a></h3>";
 		} else {
 			if ($noTasks == 'yes') {

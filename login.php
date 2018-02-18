@@ -89,17 +89,23 @@ session_start()
 			<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
 		</a>
 		<div class="topnav">
-			<a href="home.php#home">Home</a>
-			<a href="home.php#about">About</a>
-			<a href="tasks.php">My Tasks</a>
 			<?php
-			if (array_key_exists('user', $_SESSION)) {
-				if ($_SESSION['loggedin']) {
-				echo "<a href='logout.php'>Log Out</a>";
+				if (array_key_exists('user', $_SESSION)) {
+					if ($_SESSION['loggedin']) {
+					echo "<a href='home2.php'>Home</a>";
+					}
+				} else {
+					echo "<a href='index.php'>Home</a>";
 				}
-			} else {
-				echo "<a href='create_account2.php'>Create Account</a>";
-			}
+			?>
+			<a href="tasks.php">My Tasks</a>
+			<a href="about.php#about">About</a>
+			<?php
+				if (array_key_exists('user', $_SESSION)) {
+						if ($_SESSION['loggedin']) {
+						echo "<a href='logout.php'>Log Out</a>";
+						}
+				} 
 			?>
 		</div>
 		<h1>Log in!</h1>

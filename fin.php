@@ -154,20 +154,18 @@ create_Schedule($_SESSION['namelist']);
 		<link href="css.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
-	<a href="home.php">
+	<a href="home2.php">
 		<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
 	</a>
 	<div class="topnav">
-		<a href="home.php#home">Home</a>
-		<a href="home.php#about">About</a>
+		<a href="home2.php#home">Home</a>
+		<a href="about.php#about">About</a>
 		<a class="active" href="tasks.php">My Tasks</a>
 		<?php
 		if (array_key_exists('user', $_SESSION)) {
 			if ($_SESSION['loggedin']) {
 			echo "<a href='logout.php'>Log Out</a>";
 			}
-		} else {
-			echo "<a href='create_account2.php'>Create Account</a>";
 		}
 		?>
 	</div>

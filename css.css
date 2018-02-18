@@ -16,7 +16,7 @@ body {
 }
 
 .logo{
-    float:left;
+    align: "right";
 }
 
 a:link {
@@ -94,28 +94,21 @@ p {
 	font-size: 30pt;
 }
 
-.btn {
-  display:block;
-  height: 300px;
-  width: 300px;
-  border-radius: 50%;
-  border: 3px solid lightgray;
-}
 
 
 button {
+	font-family: 'Roboto';
 	background-color: #00ccff;
 	color: white;
 	padding: 14px 20px;
-	margin: 8px 0;
+	margin: 8px 10;
 	border: none;
 	cursor: pointer;
 	width: 130px;
-	transition: background .5s;
-	font-size: 20pt;  
-	font-family: cursive;
+	height: 65px;
+	font-size: 20px;
+	transition: background .5s; 
 }
-
 
 .header {
 	height:100px;
@@ -161,7 +154,7 @@ input[type="button"] {
 	margin: 8px 10;
 	border: none;
 	cursor: pointer;
-	width: 130px;
+	width: 170px;
 	height: 65px;
 	font-size: 20px;
 	transition: background .5s; 
@@ -318,18 +311,6 @@ input[type=password] {
   color: red;
 }
 
-button {
-	font-family: 'Roboto';
-	background-color: #00ccff;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 10;
-	border: none;
-	cursor: pointer;
-	width: 130px;
-	height: auto;
-	transition: background .5s; 
-}
 
 .sameline {
   display: inline-block;
@@ -338,9 +319,4 @@ button {
 input[type="submit"]:hover {
   background-color: #99ddff;
   transition: background .5s; 
-}
-
-button:hover {
-  background-color: #99ddff;
-  transition: background .5s;
 }
