@@ -94,6 +94,13 @@ p {
 	font-size: 30pt;
 }
 
+.btn {
+  display:block;
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  border: 3px solid lightgray;
+}
 
 
 button {

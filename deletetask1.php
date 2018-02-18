@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['editing'] = 'deleteonly';
+$_SESSION['editing'] = 'delete';
 ?>
 <html>
 	<head>

@@ -66,6 +66,7 @@ session_start()
 				if ($passwordFound === $hashedpswd) {
 					$loggedin = 'yes';
 					$_SESSION['loggedin'] = TRUE;
+					$_SESSION['editing'] = 'no';
 					$time = date('Y-m-d H:i:s');
 					$sql = "INSERT INTO accounts.$user SET
 					last_login = $time;";
@@ -110,7 +111,21 @@ session_start()
 			}
 		} else {
 			if ($loggedin == 'yes') {
-				$_SESSION['user'] = $_POST['usr'];
+				$_SESSION['user'] = $user = $_POST['usr'];
+				$servername = "localhost";
+				$username = "root";
+				$password = "";
+				$dbname = "accounts";
+				//Create connection_aborted
+				$conn = mysqli_connect($servername, $username, $password, $dbname);
+				//Check connection_aborted
+				if (!$conn) {
+					die("Connection failed: " . mysqli_connect_error());
+				}
+				$sql = "SELECT email FROM accounts.$user;";
+				$result = mysqli_query($conn, $sql);
+				$email = mysqli_fetch_assoc($result);
+				$_SESSION['email'] = $email;
 				$_SESSION['redirect'] = TRUE;
 				header("Location: home.php");
 			}
