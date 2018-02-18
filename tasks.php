@@ -386,7 +386,7 @@ session_start()
 			}
 		}
 		if ($VAR1) {
-			echo "<h3>You need to <a href='create_account.php'>create an account</a> first!</h3>";
+			echo "<h3>You need to <a href='create_account2.php'>create an account</a> first!</h3>";
 			echo "<h3>Already have an account? <a href='login.php'>Log in!</a></h3>";
 		} else {
 			if ($noTasks == 'yes') {
