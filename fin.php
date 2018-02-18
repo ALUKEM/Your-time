@@ -171,8 +171,8 @@ create_Schedule($_SESSION['namelist']);
 	</div>
 	<?php
 	$task = $_SESSION['timefinish'] - $_SESSION['starttime'];
-	$timedif = $task + $_SESSION['starttime'] - $_SESSION['endtime'];
-	$timedif = $timedif / 60000 / 60;
+	$timedif = $_SESSION['timefinish'] - $_SESSION['endtime'];
+	$timedif = ($timedif / 60000) / 60;
 	$task = $task / 60000;
 	$task = $task / 60;
 	$servername = "localhost";
@@ -198,6 +198,7 @@ create_Schedule($_SESSION['namelist']);
 	date = '$currentdate';";
 	$result = mysqli_query($conn, $sql);
 	$taskname = $_SESSION['firsttask'];
+	unset($_SESSION['namelist']["$taskname"]);
 	$tablename = 'tasks' . $_SESSION['user'];
 	$sql = "DELETE FROM tasks.$tablename WHERE taskname = '$taskname';";
 	$result = mysqli_query($conn, $sql);
@@ -205,9 +206,9 @@ create_Schedule($_SESSION['namelist']);
 	?>
 	<h1>Analysis:</h1>
 	<?php
-	$roundedtask = round($task, 1);
+	$roundedtask = round($task, 2);
 	$roundedtaskmin = $roundedtask * 60;
-	$roundeddif = round($timedif, 1);
+	$roundeddif = round($timedif, 2);
 	$roundeddifmin = $roundeddif * 60;
 	echo "<ul>
 				<li style='font-size: 20px;'>You took about $roundedtask hours ($roundedtaskmin minutes).</li>
