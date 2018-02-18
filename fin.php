@@ -159,8 +159,8 @@ create_Schedule($_SESSION['namelist']);
 	</a>
 	<div class="topnav">
 		<a href="home2.php#home">Home</a>
-		<a href="about.php#about">About</a>
 		<a class="active" href="tasks.php">My Tasks</a>
+		<a href="about.php#about">About</a>
 		<?php
 		if (array_key_exists('user', $_SESSION)) {
 			if ($_SESSION['loggedin']) {
@@ -171,7 +171,7 @@ create_Schedule($_SESSION['namelist']);
 	</div>
 	<?php
 	$task = $_SESSION['timefinish'] - $_SESSION['starttime'];
-	$timedif = $task - $_SESSION['starttime'];
+	$timedif = $task + $_SESSION['starttime'] - $_SESSION['endtime'];
 	$timedif = $timedif / 60000 / 60;
 	$task = $task / 60000;
 	$task = $task / 60;
@@ -197,6 +197,11 @@ create_Schedule($_SESSION['namelist']);
 	timetaken = $newtime,
 	date = '$currentdate';";
 	$result = mysqli_query($conn, $sql);
+	$taskname = $_SESSION['firsttask'];
+	$tablename = 'tasks' . $_SESSION['user'];
+	$sql = "DELETE FROM tasks.$tablename WHERE taskname = '$taskname';";
+	$result = mysqli_query($conn, $sql);
+	
 	?>
 	<h1>Analysis:</h1>
 	<?php
@@ -207,6 +212,7 @@ create_Schedule($_SESSION['namelist']);
 	echo "<ul>
 				<li style='font-size: 20px;'>You took about $roundedtask hours ($roundedtaskmin minutes).</li>
 				<li style='font-size: 20px;'>This is about $roundeddif hours ($roundeddifmin minutes) more than the target time. Your target time will be adjusted.</li>
+				<li style='font-size: 20px;'>Your task will be deleted but your time data will be saved under that task name. To retrieve this data, just create a task with the same name but without an ESTF.</li>
 		</ul>";
 	?>
 	</body>
