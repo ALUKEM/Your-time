@@ -16,7 +16,15 @@ body {
 }
 
 .logo{
-    align: "right";
+    float: right;
+}
+
+.btn {
+  display:block;
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  border: 3px solid lightgray;
 }
 
 a:link {
