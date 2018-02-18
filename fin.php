@@ -64,7 +64,7 @@ function create_Schedule($namelist) {
 	$combinedarray = $weirdarray = array(); // combining the time taken with the priority
 	for($x=0; $x <= count($namelist)-1; $x++) {
 		$y = $datedifflist[$x];
-		$z = $timelist[$x];
+		$z = $timelist[$x] + $x/1000000000;
 		$a = $namelist[$x];
 		$combinedarray["$z"] = $y;
 		$combinedarray1["$z"] = $a;
@@ -107,9 +107,9 @@ function create_Schedule($namelist) {
 			$h = "$hour[$c]";
 		}
 		if ($minute[$c] < 10) {
-			$m = "0" . "$minute[$c]";
+			$m = "0" . round("$minute[$c]");
 		} else {
-			$m ="$minute[$c]";
+			$m = round("$minute[$c]");
 		}
 		if ($hour[$d] < 10) {
 			$h1 = "0" . "$hour[$d]";
@@ -117,9 +117,9 @@ function create_Schedule($namelist) {
 			$h1 = "$hour[$d]";
 		}
 		if ($minute[$d] < 10) {
-			$m1 = "0" . "$minute[$d]";
+			$m1 = "0" . round("$minute[$d]");
 		} else {
-			$m1 ="$minute[$d]";
+			$m1 = round("$minute[$d]");
 		}
 		
 		if ($c == 0) {
@@ -148,6 +148,7 @@ create_Schedule($_SESSION['namelist']);
 ?>
 <html>
 	<head>
+		<link rel="icon" href="vthacks_icon.ico">
 		<meta charset="utf-8">
 		<title>Task Finish | Your Time</title>
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,100' rel='stylesheet' type='text/css'>
