@@ -13,7 +13,7 @@ $_SESSION['editing'] = 'yes';
 		<div class="topnav">
 			<a href="home.php#home">Home</a>
 			<a href="home.php#about">About</a>
-			<a class="active" href="edittask.php">My Tasks</a>
+			<a class="active" href="tasks.php">My Tasks</a>
 			<?php
 			if (array_key_exists('user', $_SESSION)) {
 				if ($_SESSION['loggedin']) {

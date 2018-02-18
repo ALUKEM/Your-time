@@ -3,7 +3,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css.css">
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,100' rel='stylesheet' type='text/css'>
-		<title>Home | Your Time</title>
+		<title>Create Account | Your Time</title>
 	</head>
 	<body>
 	<a name="top"></a>
@@ -12,6 +12,7 @@
 		$alert = FALSE;
 		$ErrMsg = array();
 		$VAR = 0;
+		$VAR1 = 0;
 		$VAR2 = 0;
 		function test_input($data) {
 		  $data = trim($data);
@@ -20,7 +21,7 @@
 		  return $data;
 		}
 		function create_table($user) {
-			global $VAR;
+			global $VAR, $VAR2;
 			$servername = "localhost";
 			$username = "root";
 			$password = "";
@@ -37,10 +38,20 @@
 			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			name NVARCHAR(200) NOT NULL,
 			pswd NVARCHAR(200) NOT NULL,
-			email NVARCHAR(100)
+			email NVARCHAR(100),
+			last_login datetime
 			)";
-			if (mysqli_query($conn, $sql) === TRUE) {
-				echo "Account Created! <br>";
+			
+			/*$userr = $user + "data"
+			
+			$sql1 = "CREATE TABLE $userr (
+			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			taskname NVCHAR(200) NOT NULL,
+			tasktime INT NOT NULL
+			)";
+			*/
+			if (mysqli_query($conn, $sql) === TRUE /*and mysqli_query($conn, $sql1) === TRUE) */) {
+				$VAR2 = TRUE;
 			} else {
 				$VAR = 1;
 			}
@@ -71,7 +82,7 @@
 			mysqli_close($conn);
 		}
 		function validate_inputs($user, $userpassword, $ruserpassword, $email) {
-			global $errors;
+			global $errors, $VAR1;
 			global $ErrMsg;
 			global $alert;
 			global $VAR;
@@ -81,6 +92,7 @@
 			$password = "";
 			$dbname = "accounts";
 			$user = test_input($user);
+			$userpassword = test_input($userpassword);
 			$hasheduser = hash('ripemd160', $user);
 			//$errTable = 'no';
 			//Create connection_aborted
@@ -104,26 +116,51 @@
 				$alert = True;
 				array_push($ErrMsg, $errors[3]);
 			}
-			if ($user == "" or $username == "" or $userpassword == "" or $ruserpassword == "") {
+			if ($user == "" or $username == "" or $userpassword == "" or $ruserpassword == "" or $email == "") {
 				$alert = True;
 				array_push($ErrMsg, $errors[0]);
+			}
+			if (strlen($email) > 2) {
+				if (strpos($email, '@', 1) === FALSE) {
+					$alert = True;
+					array_push($ErrMsg, 'Invalid email');
+				} else {
+					if (strpos($email, '.',strpos($email, '@', 1)) === FALSE) {
+						$alert = True;
+						array_push($ErrMsg, 'Invalid email');
+					}
+				}
 			}
 			if (!$alert) {
 				create_table($user);
 				if ($VAR == 0) {
-					create_account($user, $userpassword, $email);
-					shell_exec("python sendemail.py $email");
+					$text = 'Thank you for registering with Your Time!';
+					/*$text = '
+					<html>
+					<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+					</head>
+					<body>
+
+					<div>
+							<h1>Thank you for registering with Your Time!<h1>
+							<h2><a href="localhost/home.php">Start taking <strong>your</strong> time back now!</a><h2>
+					</div>
+					</body>
+					</html>';*/
+					$confirmemail = mail($email, "$user, thank you for registering with Your Time", $text, "Content-Type: text/html; charset=ISO-8859-1\r\n");
+					if ($confirmemail) {
+						create_account($user, $userpassword, $email);
+					} else {
+						echo "error";
+					}
 				} else {
 					$alert = True;
 					array_push($ErrMsg, $errors[2]);
 				}
 			}
 			if ($alert == TRUE) {
-				echo "<script type='text/javascript'>alert('One or more fields are invalid.');</script>";
-				/*echo "<div id = error>Errors: <br></div>";
-				for ($x = 0; $x <= count($ErrMsg)-1; $x++) {
-					echo "<div id = error>- $ErrMsg[$x] <br></div>";
-				}*/
+				$VAR1 = 1;
 				//if ($errTable == 'yes') {
 				//	$conn->query('DROP TABLE $user');
 				//}
@@ -168,18 +205,16 @@
 							<input type="submit" value="Create Account">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "button" onclick = "switchtosignin()" value = "Login">
 							<br>
 						</form>
-						<?php 
-							if ($alert) {
-								echo "<br>";
-								echo "<div id = error>Errors: <br></div>";
-								for ($x = 0; $x <= count($ErrMsg)-1; $x++) {
-									echo "<div id = error>- $ErrMsg[$x] <br></div>";
-								}
-								echo "<br>";
+						<?php
+						if ($VAR2 == TRUE and $VAR1 != 1) {
+							echo "<strong>Account Created!</strong>";
+						}
+						if ($VAR1 == 1) {
+							echo "<h4 id='error'><strong>Errors:</strong></h4>";
+							for ($x = 0; $x <= count($ErrMsg)-1; $x++) {
+								echo "<h4 id='error'><strong>- $ErrMsg[$x] <br></strong></h4>";
 							}
-							if ($VAR2 == TRUE and $VAR1 != 1) {
-								echo "<script type='text/javascript'>alert('Account created!');</script>";
-							}
+						}
 						?>
 					</div>
 					<div id = "form2">
@@ -198,12 +233,12 @@
 		</div>
 		<div id = "section2">
 			<br><br>
-			<div id = "intro">The power of Machine Learning</div>
-			<br><br><br>
+			<div id = "intro">The power of organization</div>
+			
 			<table border = 0px width = 100%>
 				<tr>
 					<td width = 50%;>
-						<center><div id = "quote">“The key is not to prioritize what's on your schedule, <br> but to schedule your priorities.” ~Steven Covey</div></center>
+						<center><div id = "quote">“The key is not to prioritize what's on your schedule, but to schedule your priorities.” ~Steven Covey</div></center>
 					</td>
 						
 					<td>
@@ -213,10 +248,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan = 2>
-					<p>
-						"\" In ovation that Xsites.\" - Kneesahn"
-					</p>
+					<td width = 50%;>
+					<center><div id = "quote">"In ovation that Xsites." - Kneesahn</center>
 					</td>
 				</tr>
 			</table>
@@ -231,7 +264,7 @@
 					</td>
 					
 					<td>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button><a href="#top"> Join us</a></button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button> Join us</button>
 					</td>
 					<td align = "right">
 						<img src = "foot2.png" style = "width: 500px; height: 220px;" align = "right">

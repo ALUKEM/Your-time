@@ -30,7 +30,7 @@ session_start()
 			<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
 		</a>
 		<div class="topnav">
-			<a href="home.php#home">Home</a>
+			<a class="active" href="home.php#home">Home</a>
 			<a href="home.php#about">About</a>
 			<a href="tasks.php">My Tasks</a>
 			<?php
@@ -52,10 +52,6 @@ session_start()
 		}
 		?>
 		
-		<p>
-			
-Welcome to <b>Your Time™</b>! <b>Your Time™ </b> is a website created by the Purple Toasters. It generates a custom schedule based on the tasks you need to accomplish during the day. Simply make an account, add your daily tasks with a prediction of how long it will take you, and let the website make you a schedule. This schedule is updated based on user data, such as how long it takes you to complete a task, so if you usually need more time for that math homework, it takes that into account and allots you more time for it in your schedule. Just give us your time, and we will manage it for you.
-
-		</p>
+		<br><br><p id="about">Welcome to <b>Your Time</b>! <b>Your Time </b> is a website created by the Purple Toasters. It generates a custom schedule based on the tasks you need to accomplish during the day. Simply make an account, add your daily tasks with a prediction of how long it will take you, and let the website make you a schedule. This schedule is updated based on user data, such as how long it takes you to complete a task, so if you usually need more time for that math homework, it takes that into account and allots you more time for it in your schedule. Allow us to manage your time.	</p>
 	</body>
 </html>

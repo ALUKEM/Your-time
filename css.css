@@ -76,7 +76,7 @@ p {
 
 #section2 {
 	margin-top: 80px;
-	background-color: lightgray;
+	background-color: darkgray;
 	font-family: 'Roboto';
 }
 
@@ -302,7 +302,7 @@ input[type=password] {
 
 #quote {
   font-family: 'Roboto';
-  color: gray;
+  color: lightgray;
   font-size: 30pt;
 }
 

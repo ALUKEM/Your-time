@@ -13,6 +13,7 @@ session_start()
 		$noTasks = 'no';
 		$tasknamesli = array();
 		$VAR1 = FALSE;
+		$timelist = array();
 		//require('fpdf.php');
 		if (key_exists('err', $_SESSION)) {
 			if ($_SESSION['err']) {
@@ -20,6 +21,7 @@ session_start()
 				$_SESSION['err'] = FALSE;
 			}
 		}
+		$_SESSION['namelist'] = array();
 		$desclist = $namelist = $datelist = array();
 		$number = array();
 		function create_pdf() {
@@ -46,7 +48,9 @@ session_start()
 			$tablename = "tasks" . $user;$tablename = "tasks" . $user;
 			$sql = "DELETE FROM tasks.$tablename WHERE taskname = '$taskname';";
 			$result = mysqli_query($conn, $sql);
-
+			$tablename1 = $user . $taskname;
+			$sql = "DROP TABLE $tablename1;";
+			$result = mysqli_query($conn, $sql);
 			mysqli_close($conn);
 		}
 		
@@ -111,7 +115,7 @@ session_start()
 			}
 		}
 		
-		function create_task($taskname, $taskdesc, $duedate) {
+		function create_task($taskname, $taskdesc, $duedate, $time) {
 			$servername = "localhost";
 			$username = "root";
 			$password = "";
@@ -149,6 +153,12 @@ session_start()
 						array_push($_SESSION['errors'], 'A task with that name already exists');
 					}
 				}
+				
+				$time = trim($time, 'hour');
+				$time = trim($time, 'hours');
+				$time = trim($time, 'hr');
+				$time = trim($time, 'hrs');
+				$time = trim($time, ' ');
 				if (strlen(ltrim(rtrim($taskname))) == 0) {
 					array_push($_SESSION['errors'], 'Task names are required');
 				}
@@ -164,6 +174,13 @@ session_start()
 				if ($duedate == ' ' or $actualdate == FALSE) {
 					array_push($_SESSION['errors'], 'Due Dates are required');
 				}
+				if (str_replace(" ", "", $taskname) !== $taskname) {
+					array_push($_SESSION['errors'], 'A task name cannot contain spaces');
+				}
+				$time = $time + 0.0;
+				if ($time == 0 or $time == "" ) {
+					array_push($_SESSION['errors'], 'ESTFs are required');
+				}
 				
 				if (count($_SESSION['errors']) == 0) {
 					$sql = "INSERT INTO $tablename SET
@@ -171,6 +188,19 @@ session_start()
 					taskdesc = '$taskdesc',
 					duedate = '$duedate';";
 					$result = mysqli_query($conn, $sql);
+					$tablename1 = $user . $taskname;
+					$sql = "CREATE TABLE $tablename1 (  
+					id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+					timetaken DOUBLE NOT NULL,
+					date DATE NOT NULL
+					)";
+					$result = mysqli_query($conn, $sql);
+					$currentdate = date("Y-m-d");
+					$sql = "INSERT INTO $tablename1 SET
+					timetaken = '$time',
+					date = '$currentdate;'";
+					$result = mysqli_query($conn, $sql);
+					
 				} else {
 					$_SESSION['errShown'] = FALSE;
 				}
@@ -184,7 +214,7 @@ session_start()
 		  return $data;
 		}
 		function showTasks($user) {
-			global $datelist, $namelist, $desclist;
+			global $datelist, $namelist, $desclist, $timelist;
 			$servername = "localhost";
 			$username = "root";
 			$password = "";
@@ -215,8 +245,19 @@ session_start()
 			$listprep = mysqli_query($conn, $sql);
 			while ($row = mysqli_fetch_array($listprep, MYSQL_ASSOC)) {
 				$actualdate = date_format(date_create_from_format('Y-m-d', $row['duedate']), 'F j, Y');
-				array_push($datelist, $actualdate);  
+				array_push($datelist, $actualdate);
 			}
+			if (count($namelist) > 0) {	
+				for($x=0; $x <= count($namelist) - 1; $x++) {
+					$tablename1 = $user . $namelist[$x];
+					$sql = "SELECT * FROM tasks.$tablename1 WHERE id=(SELECT max(id) FROM tasks.$tablename1);";
+					$listprep = mysqli_query($conn, $sql);
+					while ($row = mysqli_fetch_array($listprep, MYSQL_ASSOC)) {
+						array_push($timelist, $row['timetaken']);
+					}
+				}
+			}
+		
 		}
 		function checkTasks($user) {
 			global $noTasks;
@@ -259,7 +300,7 @@ session_start()
 		<div class="topnav">
 			<a href="home.php#home">Home</a>
 			<a href="home.php#about">About</a>
-			<a href="tasks.php">My Tasks</a>
+			<a class="active" href="tasks.php">My Tasks</a>
 			<?php
 			if (array_key_exists('user', $_SESSION)) {
 				if ($_SESSION['loggedin']) {
@@ -273,7 +314,7 @@ session_start()
 		<?php
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if ($_SESSION['editing'] == 'no') { 
-				create_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"]);
+				create_task($_POST["tskname"], $_POST["tskdesc"], $_POST["duedate"], $_POST["time"]);
 				checkTasks($_SESSION['user']);
 				$_SESSION['err'] = TRUE;
 				$_SESSION["editing"] = "no";
@@ -314,13 +355,16 @@ session_start()
 							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Task Name</th>
 							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Task Description</th>
 							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Due By</th>
+							<th colspan="1" style="font-family: \'Roboto\'; font-size: 20pt; color: #0099ff; margin-top: 5px;">Time to Finish (hours)</th>
 						</tr>';
 				showTasks($_SESSION['user']);
+				$_SESSION['namelist'] = $namelist;
 				for ($x = 0; $x <= count($namelist) - 1; $x++) {
 					array_push($number, $x + 1);
 					$actualnumber = $number[$x];
 					$name = $namelist[$x];
 					$desc = $desclist[$x];
+					$time = $timelist[$x];
 					if (strlen($desc)-1 > 14) {
 						$wordStart = strpos($desc, ' ', 10);
 						if ($wordStart < 20 and $wordStart > 13) {
@@ -330,11 +374,13 @@ session_start()
 						}
 					}
 					$date = $datelist[$x];
+					$time = $timelist[$x];
 					echo "	<tr>
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: #B6B6B6; margin-top: 5px;'>$actualnumber</th>
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px;'>$name</th>
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px; overflow: hidden; width: 18%;'>$desc</th>
 								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px;'>$date</th>
+								<th colspan='1' style='font-family: \"Roboto\"; font-size: 20pt; color: white; margin-top: 5px;'>$time</th>
 								
 							</tr>";
 				}
@@ -347,8 +393,11 @@ session_start()
 				<form action="edittask.php" id="taskOptions">
 					<input type="submit" value="Edit Tasks" />
 				</form>
-				<form action="deletetask.php" id = "delTask">
+				<form action="deletetask.php" id = "taskOptions">
 					<input type = "submit" value = "Delete task">
+				</form>
+				<form action="scheduler.php" id = "taskOptions">
+					<input type = "submit" value = "Download Schedule">
 				</form>
 			</div>
 			<!-- Create Task Modal -->
@@ -364,7 +413,8 @@ session_start()
 						<form target="_self" method="POST">
 							<h4> Task Name: (max: 50 chars) </h4><input id="taskcreation" type="text" name="tskname"><br>
 							<h4> Task Description: (max: 300 chars) </h4><input id="taskcreation" type="text" name="tskdesc"><br>
-							<h4>Date: </h4><input id="taskcreation" type="date" name="duedate"><br>
+							<h4> Due Date: </h4><input id="taskcreation" type="date" name="duedate"><br>
+							<h4> Estimated Time to Finish: (in hours)</h4><input id="taskcreation" type="text" name="time"><br>
 							<input id="taskcreation1" type="submit" value="Create Task">
 							<?php
 							$_SESSION["editing"] = "no";
