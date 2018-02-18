@@ -156,8 +156,8 @@ $_SESSION['milliseconds'] = $_SESSION['endtime'] - $_SESSION['starttime'];
 		<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
 	<div class="topnav">
 		<a href="home2.php#home">Home</a>
-		<a href="about.php#about">About</a>
 		<a class="active" href="tasks.php">My Tasks</a>
+		<a href="about.php#about">About</a>
 		<?php
 		if (array_key_exists('user', $_SESSION)) {
 			if ($_SESSION['loggedin']) {

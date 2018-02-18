@@ -14,6 +14,9 @@ $_SESSION['editing'] = 'delete';
 			<img id="logo" src="VTHacks_logo.png" alt="Your Time" height="105px" width="120px">
 		</a>
 		<div class="topnav">
+			<a href="home2.php">Home</a>
+			<a class="active" href="tasks.php">My Tasks</a>
+			<a href="about.php#about">About</a>
 			<?php
 				if (array_key_exists('user', $_SESSION)) {
 					if ($_SESSION['loggedin']) {
@@ -23,10 +26,8 @@ $_SESSION['editing'] = 'delete';
 					echo "<a href='index.php'>Create Account</a>";
 				}
 			?>
-			<a href="tasks.php">My Tasks</a>
-			<a href="about.php#about">About</a>
 		</div>
-		<h2>Edit Task</h2>
+		<h2>Delete Task</h2>
 		<form action="tasks.php" method="POST">
 			Task to delete: <input type = "text" name = "deltaskname">
 			<input type="submit" value="Delete Task">
